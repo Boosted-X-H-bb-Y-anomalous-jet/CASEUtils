@@ -64,7 +64,8 @@ JME_vars_map = {
 def nPFCounter(index, event):
     count = 0
     jet_indices = event.FatJetPFCands_jetIdx
-    length = len(event.FatJetPFCands_jetIdx)
+    length = jet_indices.GetSize() #py3
+    #length = len(event.FatJetPFCands_jetIdx)
     for i in range(length):
         if jet_indices[i] == index:
             count += 1
@@ -315,8 +316,8 @@ class Outputer:
             jet2_btag = subjets[jet2.subJetIdx1].btagDeepB
         if(jet2.subJetIdx2 >= 0):
             jet2_btag = max(jet2_btag, subjets[jet2.subJetIdx2].btagDeepB)
-	
-	
+    
+    
        # Hbb Tagger and MDW 
         jet1_MDW = (jet1.particleNetMD_Xqq + jet1.particleNetMD_Xcc) / (jet1.particleNetMD_Xqq + jet1.particleNetMD_Xcc + jet1.particleNetMD_QCD)
         jet2_MDW = (jet2.particleNetMD_Xqq + jet2.particleNetMD_Xcc) / (jet2.particleNetMD_Xqq + jet2.particleNetMD_Xcc + jet2.particleNetMD_QCD)
@@ -561,7 +562,7 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
 
         #get input tree
         TTree = inputFile.Get("Events")
-	print('Events: {}'.format(TTree))
+        print('Events: {}'.format(TTree))
 
         # pre-skimming
         if(json != ''):
@@ -598,9 +599,9 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
         trigFailCount = 0
         printed = False
         entries = inTree.entries
-	print('entries = {}'.format(entries))
-        for entry in xrange(entries):
-	    #print('entry: {}'.format(entry))
+        print('entries = {}'.format(entries))
+        for entry in range(entries):
+        #print('entry: {}'.format(entry))
 
             if count % 10000 == 0 :
                 print('--------- Processing Event ' + str(count) +'   -- percent complete ' + str(100*count/nTotal/nFiles) + '% -- ')
@@ -614,7 +615,7 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
             for fil in filters:
                 passFilter = passFilter and inTree.readBranch(fil)
             if(not passFilter): 
-		filFailCount+=1
+                filFailCount+=1
                 continue
             
             # Apply triggers only to data and MC
@@ -627,8 +628,8 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
                     printed = True
 
             if(not passTrigger): 
-		trigFailCount+=1
-		continue
+                trigFailCount+=1
+                continue
 
             PFCands = Collection(event, "FatJetPFCands")
                         
