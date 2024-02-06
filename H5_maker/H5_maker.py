@@ -275,8 +275,6 @@ class Outputer:
             sys_weights = [gen_weight, pdf_up, pdf_down, prefire_up, prefire_down, pileup_up, pileup_down, btag_up, btag_down, 
             PS_ISR_up, PS_ISR_down, PS_FSR_up, PS_FSR_down, F_up, F_down, R_up, R_down, RF_up, RF_down, top_ptrw_up, top_ptrw_down]
 
-            test = event.lead_sjbtag_corr__vec
-
             #clip extreme variations
             self.sys_weights[self.idx] = np.clip(np.array(sys_weights, dtype=np.float32), 1e-3, 1e3)
 
@@ -498,7 +496,7 @@ class Outputer:
 
 
 def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.root", json = '', year = 2016, nEventsMax = -1, sampleType = "data", 
-        sort_pfcands=True,  include_systematics = True, do_top_ptrw = False):
+        sort_pfcands=True,  include_systematics = True, do_top_ptrw = False,friend_trees=['']):
     
     if not ((sampleType == "MC") or (sampleType=="data")):
         print("Error! sampleType needs to be set to either data or MC! Please set correct option and retry.")
@@ -551,7 +549,13 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
 
 #----------------- Begin loop over files ---------------------------------
 
-    for fileName in inputFileNames:
+    if len(friend_trees)==0:
+        friend_trees = inputFileNames
+        skip_friend  = True
+    else:
+        skip_friend  = False
+
+    for fileName,friend_tree in zip(inputFileNames,friend_trees):
 
         print("Opening file %s" % fileName)
 
@@ -562,6 +566,13 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
 
         #get input tree
         TTree = inputFile.Get("Events")
+
+        if friend_tree and not skip_friend:
+            print("Adding friend {}".format(friend_tree))
+            friendFile = TFile.Open(friend_tree)
+            fr         = friendFile.Get("Events")
+            TTree.AddFriend(fr)
+
         print('Events: {}'.format(TTree))
 
         # pre-skimming
