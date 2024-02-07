@@ -16,15 +16,21 @@ parser.add_option("-n", "--nEvents",  type=int, default = -1, help="Maximum numb
 
 options, args = parser.parse_args()
 
+if options.friend_tree=="null":
+    friend_tree_args = []
+else:
+    friend_tree_args = [options.friend_tree]
+
+
 if(options.flag == -1234):
     print("No --flag option set. You must specify what type of process this is! \n" )
     exit(1)
 
 if(options.ttbar):
     NanoReader(options.flag, inputFileNames = [options.fin], outputFileName = options.fout, json = options.json, year = options.year, 
-        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw, sampleType = options.sample_type,friend_trees=[options.friend_tree])
+        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw, sampleType = options.sample_type,friend_trees=friend_tree_args)
 else:
 
     NanoReader(options.flag, inputFileNames = [options.fin], outputFileName = options.fout, json = options.json, year = options.year, 
-        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw,friend_trees=[options.friend_tree])
+        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw,friend_trees=friend_tree_args)
 

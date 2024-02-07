@@ -20,8 +20,8 @@ Error = logs/output_$(Cluster)_$(Process).stderr
 Log = logs/output_$(Cluster)_$(Process).log
 transfer_input_files = tarball.tgz
 Arguments = "$(args)"
-transfer_output_files = logs/output_$(Cluster)_$(Process).stderr,logs/output_$(Cluster)_$(Process).stdout
-Queue args from ARGFILE.txt
+transfer_output_files = ""
+Queue args from ARGFILE
 '''
 
 jetht_datasets = {
@@ -110,7 +110,7 @@ def args_data():
         # close file
         argFile.close()
 
-def args_mc(datasets_dict,data_flag):
+def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
         if data_flag:
             arguments_file = f'JetHT_args_{year}.txt'
@@ -118,11 +118,12 @@ def args_mc(datasets_dict,data_flag):
             arguments_file = f'mc_args_{year}.txt'
         arguments = []
         for process, path in dataset.items():
-            friend_dataset_path = friend_datasets[year][process]
             if("MX" in process):
                 f = 1
-            else:
+            elif("TTToHadronic" in process):
                 f = -2
+            else:
+                f = 0
 
 
             # get the file names
@@ -130,7 +131,9 @@ def args_mc(datasets_dict,data_flag):
             fNames.remove('')
             fNames.remove('log')
 
+            fFriends=[]
             if not data_flag:
+                friend_dataset_path = friend_datasets[year][process]
                 fFriends = subprocess.check_output(['{} {}'.format(eosls,friend_dataset_path)],shell=True,text=True).split('\n')
                 fFriends.remove('')
 
@@ -141,7 +144,7 @@ def args_mc(datasets_dict,data_flag):
                     exit()
 
                 if data_flag:
-                    friend_tree_path = ''
+                    friend_tree_path = 'null'
                 else:
                     friend_tree_path = f"{redirector}{friend_dataset_path}/{fName}"
 
@@ -161,8 +164,8 @@ def args_mc(datasets_dict,data_flag):
                 arguments.append(' -i {} -o {} -y {} -f {} --fTree {}\n'.format(iFile, oFile, iYear, f, friend_tree_path))
 
         if arguments==[]:
-            print("Processed all")
-            exit()
+            print(f"Processed all in {year}")
+            continue
         else:
             n_files_to_process = len(arguments)
             print(f"{n_files_to_process} file to process in {year}")
@@ -173,7 +176,7 @@ def args_mc(datasets_dict,data_flag):
         for job_id in range(1,n_jobs+1):
             f.write(arguments_file.replace(".txt",f"_{job_id}.txt\n"))
 
-        condor_tpl = jdl_tpl.replace("ARGFILE",f"mc_args_{year}")
+        condor_tpl = jdl_tpl.replace("ARGFILE",arguments_file)
         f = open(f"jdl_{year}.txt","w")
         f.write(condor_tpl)
         f.close()
@@ -198,5 +201,8 @@ if __name__=='__main__':
     #args_data()
     print("rm -f *args*txt jdl*txt")
     subprocess.call(["rm -f *args*txt jdl*txt"],shell=True)
-    args_mc(mc_datasets,False)
+    #data_flag = False
+    #args_for_submission(mc_datasets,data_flag)
+    data_flag = True
+    args_for_submission(jetht_datasets,data_flag)
     subprocess.call(["tar czf tarball.tgz run_h5_condor.sh run_h5_condor.py make_h5_local.py H5_maker.py *args*txt"],shell=True)
