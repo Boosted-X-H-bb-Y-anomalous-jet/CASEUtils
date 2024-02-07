@@ -10,7 +10,7 @@ output_dir ='root://cmseos.fnal.gov//store/user/roguljic/H5_output/'
 def prepare_arguments(store_dir):
     fNames = subprocess.check_output(['{} {}'.format(eosls,store_dir)],shell=True,text=True).split('\n')
     fNames.remove('')
-    store_full_path = store_dir.replace("/store/user/roguljic/","/uscms/home/roguljic/store/")
+    store_full_path = store_dir.replace("/store","/eos/uscms/store/")
     inputs = []
     for fName in fNames:
         full_name = f"{store_full_path}{fName}"
