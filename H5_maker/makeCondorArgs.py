@@ -89,29 +89,10 @@ friend_datasets= {
     }
 }
 
-def args_data():
-    # loop over dataset dictionary
-    for year, dataset in jetht_datasets.items():
-    # create arg file
-        argFile = open('JetHT_Args_{}.txt'.format(year),'w')
-        for process, path in dataset.items():
-            f=0
-            # get the file names
-            fNames = subprocess.check_output(['{} {}'.format(eosls,path)],shell=True,text=True).split('\n')
-            fNames.remove('')
-            fNames.remove('log')
-            for fName in fNames:
-                # create arguments
-                iFile = '{}{}{}'.format(redirector, path, fName)
-                oFile = '{}/{}_{}.h5'.format(output_dir,process, fName.split('.')[0])
-                iYear = 2016 if 'APV' in year else year
-                # write to file
-                argFile.write(' -i {} -o {} -y {} -f {}\n'.format(iFile, oFile, iYear, f))
-        # close file
-        argFile.close()
-
 def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
+        #if year!="2018":
+        #    continue
         if data_flag:
             arguments_file = f'JetHT_args_{year}.txt'
         else:
@@ -164,7 +145,10 @@ def args_for_submission(datasets_dict,data_flag):
                 arguments.append(' -i {} -o {} -y {} -f {} --fTree {}\n'.format(iFile, oFile, iYear, f, friend_tree_path))
 
         if arguments==[]:
-            print(f"Processed all in {year}")
+            if data_flag:
+                print(f"Processed all data in {year}")
+            else:
+                print(f"Processed all MC in {year}")
             continue
         else:
             n_files_to_process = len(arguments)
@@ -176,15 +160,19 @@ def args_for_submission(datasets_dict,data_flag):
         for job_id in range(1,n_jobs+1):
             f.write(arguments_file.replace(".txt",f"_{job_id}.txt\n"))
 
+        if data_flag:
+            jdl_name = f"jdl_{year}_data.txt"
+        else:
+            jdl_name = f"jdl_{year}_mc.txt"
         condor_tpl = jdl_tpl.replace("ARGFILE",arguments_file)
-        f = open(f"jdl_{year}.txt","w")
+        f = open(jdl_name,"w")
         f.write(condor_tpl)
         f.close()
 
-        print(f"condor_submit jdl_{year}.txt")
+        print(f"condor_submit {jdl_name}")
 
 
-def write_arguments(filename,arguments,N=50):    
+def write_arguments(filename,arguments,N=20):    
     counter = 0
     for i in range(0,len(arguments), N):  
         arg_chunk = arguments[i:i + N]
@@ -201,8 +189,8 @@ if __name__=='__main__':
     #args_data()
     print("rm -f *args*txt jdl*txt")
     subprocess.call(["rm -f *args*txt jdl*txt"],shell=True)
-    #data_flag = False
-    #args_for_submission(mc_datasets,data_flag)
+    data_flag = False
+    args_for_submission(mc_datasets,data_flag)
     data_flag = True
     args_for_submission(jetht_datasets,data_flag)
-    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh run_h5_condor.py make_h5_local.py H5_maker.py *args*txt"],shell=True)
+    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt"],shell=True)

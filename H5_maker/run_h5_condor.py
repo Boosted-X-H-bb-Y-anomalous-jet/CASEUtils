@@ -35,5 +35,10 @@ if __name__=='__main__':
     print("Sys: ", sys_opt)
 
 
-    subprocess.call('python make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, sys_opt),shell=True)
-    subprocess.call([f'xrdcp {oFileName} {args.oFile}'],shell=True)
+    print('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, sys_opt))
+    subprocess.call('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, sys_opt),shell=True)
+    print('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName))
+    subprocess.call('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName),shell=True)
+    print(f'xrdcp {oFileName} {args.oFile}')
+    subprocess.call([f'xrdcp with_jet_images.h5 {args.oFile}'],shell=True)
+    
