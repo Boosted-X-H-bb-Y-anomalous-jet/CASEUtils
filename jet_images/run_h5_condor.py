@@ -15,4 +15,7 @@ if __name__=='__main__':
                         help='output H5 file')
 
     args = parser.parse_args()
-    subprocess.call('python make_jet_images.py -i {} -o {}'.format(args.iFile, args.oFile),shell=True)
+    subprocess.call('xrdcp -i {}'.format(args.iFile),shell=True)
+    file_name = args.iFile.split("/")[-1]
+    subprocess.call('python make_jet_images.py -i {} -o out.h5'.format(file_name),shell=True)
+    subprocess.call('xrdcp out.h5 -o {}'.format(args.oFile),shell=True)

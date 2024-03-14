@@ -1,1 +1,0 @@
--i root://cmsxrootd.fnal.gov//store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1000to1500/220808_181242/0000/log -o QCD-HT1000to1500_log_2016.h5 -y 2016 -f 0

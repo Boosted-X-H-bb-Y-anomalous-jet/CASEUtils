@@ -42,10 +42,28 @@ def addSys(inputFile,oDir,year):
 
     columns_to_save = []
 
+    if("MX" in inputFile):
+        eff = calcEff(inputFile,year)
+
     a = analyzer(inputFile)
 
     file_name = inputFile.split("/")[-1]
 
+    PnetSFFlag = False
+    if("MX" in inputFile):
+        CompileCpp('TIMBER/Framework/XHYanomalous_modules/HF_tagging_SF.cc')
+        if(year=="2016APV"):
+            CompileCpp(f"HF_tagging_SF hf_tagging({eff},2015);")
+        else:
+            CompileCpp(f"HF_tagging_SF hf_tagging({eff},{year});")
+        a.Define(f"PnetWeights", "hf_tagging.evtWeight(nFatJet,FatJet_pt,FatJet_particleNetMD_Xbb,FatJet_particleNetMD_QCD)")
+        a.Define(f"PnetNom", "PnetWeights[0]")
+        a.Define(f"PnetUp", "PnetWeights[1]")
+        a.Define(f"PnetDown", "PnetWeights[2]")
+        pnetCorr    = Correction('PNetSF',"TIMBER/Framework/src/BranchCorrection.cc",corrtype='weight',mainFunc='evalWeight')
+        
+        a.AddCorrection(pnetCorr, evalArgs={'val':'PnetNom','valUp':'PnetUp','valDown':'PnetDown'})
+        PnetSFFlag = True
     CompileCpp('THmodules.cc')
 
     year_int = int(options.year[2:4])
@@ -139,9 +157,33 @@ def addSys(inputFile,oDir,year):
     if ttbar_flag:
         columns_to_save.extend(['TptReweight__nom','TptReweight__up', 'TptReweight__down',])
 
+    if PnetSFFlag:
+        columns_to_save.extend(['PNetSF__nom','PNetSF__up', 'PNetSF__down',])
+
+
     a.Snapshot(columns_to_save, file_name, 'Events', openOption = 'RECREATE')
     a.Close()
     xrdcp_command(file_name,f"{oDir}/{file_name}")
+
+def calcEff(inputFile,year):
+    pnet_tight  = {"2016APV":0.9883,"2016":0.9883,"2017":0.9870,"2018":0.9880}
+    a = analyzer(inputFile)
+    a.Cut("nFatJet cut for efficiency","nFatJet>1")
+    a.Cut("FatJet pt cut for efficiency","FatJet_pt[0]>300 && FatJet_pt[1]>300")
+    a.Define("pt0","FatJet_pt[0]")
+    a.Define("pt1","FatJet_pt[1]")
+    a.Define("PnetXbb0","FatJet_particleNetMD_Xbb[0]/(FatJet_particleNetMD_Xbb[0] + FatJet_particleNetMD_QCD[0])")
+    a.Define("PnetXbb1","FatJet_particleNetMD_Xbb[1]/(FatJet_particleNetMD_Xbb[1] + FatJet_particleNetMD_QCD[1])")
+    a.Define("PnetHiggs","(PnetXbb0>PnetXbb1) ? PnetXbb0 : PnetXbb1")
+    a.Define("ptHiggs","(PnetXbb0>PnetXbb1) ? pt0 : pt1")
+    nTotal = a.DataFrame.Count().GetValue()
+    pnet_cut = pnet_tight[year]
+    a.Cut("Pnet cut for efficiency",f"PnetHiggs>{pnet_cut}")
+    nPass = a.DataFrame.Count().GetValue()
+    efficiency = nPass/nTotal
+    a.Close()
+    print(f"Efficiency for PNet in {inputFile} = {efficiency:.3f}")
+    return efficiency
 
 def xrdcp_command(input_file, output_file):
     cmd = f"xrdcp {input_file} {output_file}"
