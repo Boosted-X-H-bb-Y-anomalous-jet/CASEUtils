@@ -193,4 +193,4 @@ if __name__=='__main__':
     args_for_submission(mc_datasets,data_flag)
     data_flag = True
     args_for_submission(jetht_datasets,data_flag)
-    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt"],shell=True)
+    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt gen_utils.py"],shell=True)
