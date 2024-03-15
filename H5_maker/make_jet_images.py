@@ -20,8 +20,8 @@ batch_size = 5000
 fin_name = options.fin_name
 fout_name = options.fout_name
 if(fout_name == ""): fout_name = fin_name
-#excludes = []
-excludes = ['jet1_PFCands', 'jet2_PFCands']
+excludes = []
+#excludes = ['jet1_PFCands', 'jet2_PFCands']
 npix = options.npix
 img_width = 1.2
 rotate = False
@@ -35,6 +35,8 @@ if(fin_name != fout_name):
         os.system("cp %s %s" % (fin_name, fout_name))
         fin = h5py.File(fin_name, 'r')
         fout = h5py.File(fout_name, 'a')
+        j1_PFCands = fin['jet1_PFCands']
+        j2_PFCands = fin['jet2_PFCands']
     else:
         fin = h5py.File(fin_name, 'r')
         fout = h5py.File(fout_name, 'w')

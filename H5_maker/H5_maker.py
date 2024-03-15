@@ -39,6 +39,8 @@ sys_weights_map = {
         'RF_down' : 18,
         'top_ptrw_up' : 19,
         'top_ptrw_down' : 20,
+        'pnet_up' : 21,
+        'pnet_down' : 22,
         }
 
 JME_vars_map = {
@@ -115,7 +117,7 @@ class Outputer:
         self.jet2_extraInfo = np.zeros((self.batch_size, 10), dtype=np.float32)
         self.jet_kinematics = np.zeros((self.batch_size, 14), dtype=np.float32)
         self.event_info = np.zeros((self.batch_size, 8), dtype=np.float32)
-        self.sys_weights = np.zeros((self.batch_size, 21), dtype=np.float32)
+        self.sys_weights = np.zeros((self.batch_size, 23), dtype=np.float32)
         self.jet1_JME_vars = np.zeros((self.batch_size, 12), dtype=np.float32)
         self.jet2_JME_vars = np.zeros((self.batch_size, 12), dtype=np.float32)
 
@@ -155,7 +157,7 @@ class Outputer:
         sys_branch_names = ["Pileup__nom", "Pileup__up", "Pileup__down", 
                 "lead_sjbtag_corr__nom",  "lead_sjbtag_corr__up",  "lead_sjbtag_corr__down",  "sublead_sjbtag_corr__nom",  "sublead_sjbtag_corr__up",  "sublead_sjbtag_corr__down",  
                 "Pdfweight__up", "Pdfweight__down", 
-                "PSWeight[0]",  "PSWeight[1]", "PSWeight[2]", "PSWeight[3]",
+                "PSWeight[0]",  "PSWeight[1]", "PSWeight[2]", "PSWeight[3]","PNetSF_up","PNetSF_down"
                 ]
 
         #read number of scale variations
@@ -266,14 +268,19 @@ class Outputer:
                 top_ptrw_down = inTree.readBranch("TptReweight__down") / top_ptrw_nom
                 self.top_weights.append(top_ptrw_nom)
 
-
+            pnet_nom = pnet_up = pnet_down = 1.0
+            if(hasattr(inTree,"PNetSF__nom")):
+                pnet_nom = inTree.readBranch("PNetSF__nom")
+                pnet_up = inTree.readBranch("PNetSF__up") / pnet_nom
+                pnet_down = inTree.readBranch("PNetSF__down") / pnet_nom
+                self.top_weights.append(pnet_nom)
 
 
 
 
             gen_weight = prefire_nom * pileup_nom * btag_nom * top_ptrw_nom
             sys_weights = [gen_weight, pdf_up, pdf_down, prefire_up, prefire_down, pileup_up, pileup_down, btag_up, btag_down, 
-            PS_ISR_up, PS_ISR_down, PS_FSR_up, PS_FSR_down, F_up, F_down, R_up, R_down, RF_up, RF_down, top_ptrw_up, top_ptrw_down]
+            PS_ISR_up, PS_ISR_down, PS_FSR_up, PS_FSR_down, F_up, F_down, R_up, R_down, RF_up, RF_down, top_ptrw_up, top_ptrw_down, pnet_up, pnet_down]
 
             #clip extreme variations
             self.sys_weights[self.idx] = np.clip(np.array(sys_weights, dtype=np.float32), 1e-3, 1e3)
