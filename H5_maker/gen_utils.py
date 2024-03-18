@@ -132,6 +132,75 @@ def parse_Wp(event):
 
     return q1_vecs + q2_vecs
 
+def parse_YToWW(event):
+    GenPartsColl = Collection(event, "GenPart")
+
+    #Y -> WW, W-> qq
+    W1 = W2 = None
+    Y_ID = 35
+    H_ID = 25
+    q1s = []
+    q2s = []
+
+    for i, gen_part in enumerate(GenPartsColl):
+        #print(i, gen_part.pdgId, gen_part.genPartIdxMother, gen_part.pt, gen_part.eta, gen_part.phi, gen_part.mass)
+        if(isFirstCopy(gen_part.statusFlags) and fromHardProcess(gen_part.statusFlags)):
+        #if(isFirstCopy(gen_part.statusFlags) and gen_part.genPartIdxMother > 0  and abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) in parent_ids):
+            if(abs(gen_part.pdgId) == W_ID):
+                if(W1 is None): W1 = gen_part
+                elif(W2 is None): W2 = gen_part
+                else: print("Extra W!")
+                #print("Z", gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId, gen_part.genPartIdxMother)
+
+
+    parent_ids = {W_ID}
+
+    #avoid low pt garbage from shower
+
+    for gen_part in GenPartsColl:
+        #if(abs(gen_part.pdgId) < MAX_LEP_ID and isFirstCopy(gen_part.statusFlags) and gen_part.genPartIdxMother > 0):
+        if(abs(gen_part.pdgId) < MAX_LEP_ID and isFirstCopy(gen_part.statusFlags) and gen_part.genPartIdxMother > 0 and fromHardProcess(gen_part.statusFlags)
+                and abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) in parent_ids):
+            W_cand, W_dist = findMother(GenPartsColl, gen_part, {W_ID, Y_ID}, dist=0)
+            if(W1 is not None and W2 is not None):
+                if(W_cand is W1 ): q1s.append((W_dist, gen_part))
+                elif(W_cand is W2 ): q2s.append((W_dist, gen_part))
+            else:
+                #No W candidates saved, just do the best we can to split the partons between the two W candidates
+                #Get the first, 4 quarks that are not coming from H->bb decay
+                if(abs(gen_part.pdgId) == b_ID and  abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) == H_ID ): 
+                    continue #These are coming from H->bb which we do not want in our Y->WW->4q jet
+
+                if(abs(gen_part.pdgId) <= top_ID and abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) == W_ID and len(q1s) < 2): q1s.append((len(q1s), gen_part))
+                elif(abs(gen_part.pdgId) <= top_ID and abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) == W_ID): q2s.append((len(q2s), gen_part))
+
+
+
+            #mother, dist = findMother(GenPartsColl, gen_part, {H_ID}, dist=0)
+            ##print(gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId, GenPartsColl[gen_part.genPartIdxMother].pdgId, mother.pdgId)
+            #if(mother is top1 or mother is Z1): q1s.append((dist, gen_part))
+            #elif(mother is top2 or mother is Z2): q2s.append((dist, gen_part))
+
+    #gen matching isn't always perfect, do some attempt at cleanup here
+    if(len(q1s) != 2 or len(q2s) != 2):
+        print("Issue in quark finding!")
+        print(len(q1s), len(q2s))
+        print(q1s)
+        print(q2s)
+        for i, gen_part in enumerate(GenPartsColl):
+            print(i, gen_part.pdgId, gen_part.genPartIdxMother, gen_part.pt, gen_part.eta, gen_part.phi, gen_part.mass)
+        exit(1)
+
+    if(len(q1s) > 2): q1s = prune_genparts(q1s, 2)
+    if(len(q2s) > 2): q2s = prune_genparts(q2s, 2)
+    q1_vecs =  [ [gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId] for dist,gen_part in q1s ]
+    q2_vecs =  [ [gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId] for dist,gen_part in q2s ]
+
+    #zero pad if we missed some quarks
+    while(len(q1_vecs) < 2): q1_vecs.append([-1.0, 0.0, 0.0, 0])
+    while(len(q2_vecs) < 2): q2_vecs.append([-1.0, 0.0, 0.0, 0])
+
+    return q1_vecs + q2_vecs
 
 def parse_YToHH(event):
     GenPartsColl = Collection(event, "GenPart")
@@ -415,6 +484,7 @@ def parse_Wkk(event):
 
 #number of gen particles to save and parsing function
 gen_dict = {
+        'YtoWW' : (2*2, parse_YToWW),
         'YtoHH' : (6*2, parse_YToHH),
         'ZpToTpTp' : (5*2, parse_ZpToTpTp),
         'Wkk' : (4+2, parse_Wkk),
