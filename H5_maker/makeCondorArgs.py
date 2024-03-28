@@ -101,10 +101,13 @@ def args_for_submission(datasets_dict,data_flag):
         for process, path in dataset.items():
             if("MX" in process):
                 f = 1
+                gen_opt = "-g YtoWW"
             elif("TTToHadronic" in process):
                 f = -2
+                gen_opt = "-g ttobqq"
             else:
                 f = 0
+                gen_opt = ""
 
 
             # get the file names
@@ -142,7 +145,8 @@ def args_for_submission(datasets_dict,data_flag):
 
                 oFile = f'{proc_dir}{fName.split(".")[0]}.h5'
                 iYear = 2016 if 'APV' in year else year
-                arguments.append(' -i {} -o {} -y {} -f {} --fTree {}\n'.format(iFile, oFile, iYear, f, friend_tree_path))
+                
+                arguments.append(' -i {} -o {} -y {} -f {} --fTree {} {} \n'.format(iFile, oFile, iYear, f, friend_tree_path, gen_opt))
 
         if arguments==[]:
             if data_flag:
@@ -193,4 +197,4 @@ if __name__=='__main__':
     args_for_submission(mc_datasets,data_flag)
     data_flag = True
     args_for_submission(jetht_datasets,data_flag)
-    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt gen_utils.py"],shell=True)
+    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt gen_utils.py add_VAE_loss.py jrand_autoencoder_m2500.h5"],shell=True)

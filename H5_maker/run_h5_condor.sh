@@ -18,6 +18,13 @@ eval `scramv1 runtime -sh`
 #python3 -m virtualenv py3-env
 #source py3-env/bin/activate
 
+python3 -m venv --without-pip myenv
+source myenv/bin/activate
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+pip install numpy==1.21.0
+#TF version in CMSSW_11_3_4 works with this numpy, otherwise some error during execution is reported
+
 echo $1
 while read -r line
 do

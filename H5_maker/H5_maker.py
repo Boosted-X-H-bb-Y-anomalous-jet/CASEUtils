@@ -164,7 +164,7 @@ class Outputer:
         sys_branch_names = ["Pileup__nom", "Pileup__up", "Pileup__down", 
                 "lead_sjbtag_corr__nom",  "lead_sjbtag_corr__up",  "lead_sjbtag_corr__down",  "sublead_sjbtag_corr__nom",  "sublead_sjbtag_corr__up",  "sublead_sjbtag_corr__down",  
                 "Pdfweight__up", "Pdfweight__down", 
-                "PSWeight[0]",  "PSWeight[1]", "PSWeight[2]", "PSWeight[3]","PNetSF_up","PNetSF_down"
+                "PSWeight[0]",  "PSWeight[1]", "PSWeight[2]", "PSWeight[3]"
                 ]
 
         #read number of scale variations
@@ -192,13 +192,6 @@ class Outputer:
         else:
             genWeight = inTree.readBranch('genWeight')
             leptonic_decay = self.is_leptonic_decay(event)
-
-
-        if(self.gen_label != ""):
-            gen_parts = self.gen_parser(event)
-            #print(gen_parts)
-            self.gen_info[self.idx] = np.array(gen_parts, dtype= np.float32)
-
         
         MET = inTree.readBranch('MET_pt')
         MET_phi = inTree.readBranch('MET_phi')
@@ -284,15 +277,14 @@ class Outputer:
 
             pnet_nom = pnet_up = pnet_down = 1.0
             if(hasattr(inTree,"PNetSF__nom")):
+                print("AAAAAAAAAAA")
                 pnet_nom = inTree.readBranch("PNetSF__nom")
                 pnet_up = inTree.readBranch("PNetSF__up") / pnet_nom
                 pnet_down = inTree.readBranch("PNetSF__down") / pnet_nom
-                self.top_weights.append(pnet_nom)
 
 
 
-
-            gen_weight = prefire_nom * pileup_nom * btag_nom * top_ptrw_nom
+            gen_weight = prefire_nom * pileup_nom * btag_nom * top_ptrw_nom * pnet_nom
             sys_weights = [gen_weight, pdf_up, pdf_down, prefire_up, prefire_down, pileup_up, pileup_down, btag_up, btag_down, 
             PS_ISR_up, PS_ISR_down, PS_FSR_up, PS_FSR_down, F_up, F_down, R_up, R_down, RF_up, RF_down, top_ptrw_up, top_ptrw_down, pnet_up, pnet_down]
 
@@ -302,17 +294,7 @@ class Outputer:
             self.jet1_JME_vars[self.idx] = jet1.JME_vars
             self.jet2_JME_vars[self.idx] = jet2.JME_vars
 
-
-
-
-
-
-
-
         d_eta = abs(jet1.eta - jet2.eta)
-
-
-
 
         jet_kinematics = [mjj, d_eta, jet1.pt_corr, jet1.eta, jet1.phi, jet1.msoftdrop_corr, jet2.pt_corr, jet2.eta, jet2.phi, jet2.msoftdrop_corr]
 
@@ -365,6 +347,23 @@ class Outputer:
         for idx in range2:
             cand = ROOT.Math.PtEtaPhiMVector(PFCands[idx].pt, PFCands[idx].eta, PFCands[idx].phi, PFCands[idx].mass)
             jet2_PFCands.append([cand.Px(), cand.Py(), cand.Pz(), cand.E()])
+
+
+
+        if(self.gen_label != ""):
+            if(self.gen_label=="ttobqq"):
+                if jet1_HbbTag>jet2_HbbTag:#Y-cand is jet2
+                    eta = jet2.eta
+                    phi = jet2.phi
+                else:
+                    eta = jet1.eta#Y-cand is jet1
+                    phi = jet1.phi
+                gen_parts = self.gen_parser(event,eta,phi)
+                self.gen_info[self.idx] = np.array(gen_parts, dtype= np.float32)
+            else:
+                gen_parts = self.gen_parser(event)
+                self.gen_info[self.idx] = np.array(gen_parts, dtype= np.float32)
+
 
         #SV's
         jet1_SVs = []

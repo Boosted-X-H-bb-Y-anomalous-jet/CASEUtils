@@ -1,6 +1,6 @@
 
 import ROOT
-from ROOT import TLorentzVector, TFile
+from ROOT import TLorentzVector, TFile, Math
 import numpy as np
 import h5py
 
@@ -481,6 +481,75 @@ def parse_Wkk(event):
 
     return qs_radion_vecs + qs_iso_vecs
 
+def get_id_Y_cand(event,eta,phi):
+    #Figure out  which gen top is closer to the Y-cand reco jet given by eta,phi
+    #Returns either 6 or -6
+    GenPartsColl = Collection(event, "GenPart")
+    min_DR = 999.
+    id = -1
+    Y_cand_vec = Math.PtEtaPhiEVector(1., eta, phi, 1.)
+    for i, gen_part in enumerate(GenPartsColl):
+        if not(abs(gen_part.pdgId) == 6 and isFirstCopy(gen_part.statusFlags)):
+            continue
+        gen_part_vec = Math.PtEtaPhiEVector(1., gen_part.eta, gen_part.phi, 1.)
+        deltaR = Math.VectorUtil.DeltaR(Y_cand_vec,gen_part_vec)
+        if deltaR<min_DR:
+            id = gen_part.pdgId
+
+    if id==-1:
+        print("Could not find top or antitop. Are you sure this is a TTbar sample?")
+        exit()
+
+    return id
+
+def parse_hadronicTop(event,eta,phi):
+
+    Y_cand_id = get_id_Y_cand(event,eta,phi)#top or antitop: 6, -6
+    GenPartsColl = Collection(event, "GenPart")
+
+    if Y_cand_id == 6:
+        w_match = 24#If top, it decays to W+
+    else:
+        w_match = -24#Else it decay to W-
+
+    #decay to W(qq)+b
+    W_ID = 24
+    t_ID = 6
+    q1s = []
+    q2s = []
+
+    #Fill out q1 with W(qq) decay genparts
+    parent_ids = {W_ID,t_ID}
+    for i, gen_part in enumerate(GenPartsColl):
+        if(abs(gen_part.pdgId) < MAX_LEP_ID and isFirstCopy(gen_part.statusFlags) and gen_part.genPartIdxMother > 0 
+                and (abs(GenPartsColl[gen_part.genPartIdxMother].pdgId) in parent_ids) and isFinal(GenPartsColl[gen_part.genPartIdxMother].statusFlags)):
+            mother, dist = findMother(GenPartsColl, gen_part, parent_ids, dist=0)
+            #print(gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId, GenPartsColl[gen_part.genPartIdxMother].pdgId, mother.pdgId)
+            if(mother.pdgId == w_match):#Append only those quarks that are coming from W associated with (anti)top we are interested in 
+                q1s.append((dist, gen_part))
+            elif(mother.pdgId == Y_cand_id ): 
+                q2s.append((dist, gen_part))
+
+    # if(len(q1s) != 2 or len(q2s) != 1):
+    #     print("Issue in quark finding!")
+    #     print(len(q1s), len(q2s))
+    #     print(q1s)
+    #     print(q2s)
+    #     exit()
+
+    #gen matching isn't always perfect, do some attempt at cleanup here
+    if(len(q1s) > 2): q1s = prune_genparts(q1s, 2)
+    if(len(q2s) > 1): q2s = prune_genparts(q2s, 1)
+
+    q1s_vecs =  [ [gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId] for dist,gen_part in q1s ]
+    q2s_vecs =  [ [gen_part.pt, gen_part.eta, gen_part.phi, gen_part.pdgId] for dist,gen_part in q2s ]
+
+    #zero pad if we missed some quarks
+    while(len(q1s_vecs) < 2): q1s_vecs.append([-1.0, 0.0, 0.0, 0])
+    while(len(q2s_vecs) < 1): q2s_vecs.append([-1.0, 0.0, 0.0, 0])
+
+    return q1s_vecs + q2s_vecs
+
 
 #number of gen particles to save and parsing function
 gen_dict = {
@@ -490,6 +559,7 @@ gen_dict = {
         'Wkk' : (4+2, parse_Wkk),
         'XYY' : (2+2, parse_XYY),
         'Qstar' : (2+1, parse_Qstar),
+        'ttobqq' : (2+1, parse_hadronicTop),
         'Wp' : (3+3, parse_Wp),
          }
 
