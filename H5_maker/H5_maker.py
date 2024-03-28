@@ -277,7 +277,6 @@ class Outputer:
 
             pnet_nom = pnet_up = pnet_down = 1.0
             if(hasattr(inTree,"PNetSF__nom")):
-                print("AAAAAAAAAAA")
                 pnet_nom = inTree.readBranch("PNetSF__nom")
                 pnet_up = inTree.readBranch("PNetSF__up") / pnet_nom
                 pnet_down = inTree.readBranch("PNetSF__down") / pnet_nom
