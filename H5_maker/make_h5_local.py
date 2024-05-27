@@ -33,5 +33,5 @@ if(options.ttbar):
 else:
 
     NanoReader(options.flag, inputFileNames = [options.fin], outputFileName = options.fout, json = options.json, year = options.year, 
-        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw,friend_trees=friend_tree_args, gen_label = options.gen)
+        nEventsMax = options.nEvents, include_systematics = options.sys, do_top_ptrw = options.top_ptrw, sampleType = options.sample_type,friend_trees=friend_tree_args, gen_label = options.gen)
 

@@ -25,6 +25,9 @@ if __name__=='__main__':
     parser.add_argument('--fTree', type=str, dest='friend_tree',
                     action='store', required=False,
                     help='Friend tree with extra branches for systematics')
+    parser.add_argument('--sample_type', type=str, dest='sample_type',
+        action='store', required=True,
+        help='MC or data')
 
 
     args = parser.parse_args()
@@ -43,8 +46,8 @@ if __name__=='__main__':
     print("Sys: ", sys_opt)
 
 
-    print('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {} {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, gen_opt,sys_opt))
-    subprocess.call('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {} {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, gen_opt, sys_opt),shell=True)
+    print('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {} {} --sample_type {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, gen_opt,sys_opt,args.sample_type))
+    subprocess.call('python3 make_h5_local.py -i {} -o {} -y {} -f {} --fTree {} {} {} --sample_type {}'.format(args.iFile, oFileName, args.year, args.f, args.friend_tree, gen_opt,sys_opt,args.sample_type),shell=True)
     print('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName))
     subprocess.call('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName),shell=True)
     print('python3 add_VAE_loss.py')
