@@ -1,37 +1,23 @@
 # H5 Maker
 
-Make h5's from the extended NanoAOD (pancakes) after applying a preselection. 
+Make h5's from the PFNanos + trees with systematics after applying a preselection. 
 
-To run locally, try something like `python make_h5_local.py -i input_file.root -o output_file.h5 -y 201X -f 0` 
+## Submitting jobs for **$X\to HY\, H\to b\bar{b}\, Y\to \textrm{Anomalous}$**
 
-The option `-f` sets the truth label of the output. Usually signal is 1, QCD is 0, single top -1, ttbar -2, V+jets -3
-Use the `--sys` option if you are running on a signal and want to save the event weights for the systematic variation. 
-The options are described a bit in `make_h5_local.py`
+1. Create a tarball of your CMSSW environment using `source tar_env.sh`.
 
-## Converting large amounts of data
-**For $X\to HY,\, H\to b\bar{b},\, Y\to \textrm{Anomalous}$**
+2. Create a directory to store the output on EOS: `eos root://cmseos.fnal.gov mkdir /store/user/$USER/H5_output/`, where `$USER` is your username.
 
-There are two options: 
+3. Change store path(s) in `run_h5_condor.sh` to your username
 
-One could convert all the PFNano background samples one at a time, run `python createBackgrounds.py`. This is not recommended, as there are tens of thousands of files and it would take forever. Instead, we can perform the conversion in parallel via HTCondor, using the following steps. 
-
-1. Create a tarball of your CMSSW environment using `source tar_env.sh`. The tarball is stored on your EOS space under `/store/user/$USER/H5_env.tgz`
-
-2. Create the arguments to the script which will be run on all condor nodes: `python makeCondorArgs.py`. The argument files for each year will be generated 
-
-3. Create a directory to store the output on EOS: `eos root://cmseos.fnal.gov mkdir /store/user/$USER/H5_output/`, where `$USER` is your username.
-
-4. Change all occurrences of `ammitra` in `run_h5_condor.sh` (lines 4, 20) to your username
-
-5. Submit jobs to condor via the following command. Replace `<ARGS>` with the appropriate `.txt` file containing the arguments to `run_h5_condor.py`.
-```
-python CondorHelper.py -r run_h5_condor.sh -a <ARGS> -i "run_h5_condor.sh make_h5_local.py H5_maker.py"
-```
+4. Create the arguments to the script which will be run on all condor nodes: `python makeCondorArgs.py`. The argument files for each year will be generated 
 
 Logs from the submission will be sent to the `logs/` directory.
 
+Once all .h5 are produced, `H5_merge_mc.py` should be used to merge MC files. Data does not need to be merged. The reason is downstream MC number-of-event bookkeeping that can be changed if it becomes a problem.
 
-## Preselection
+
+## Preselection (posibly outdated, check later)
 
 The preselection is as follows
 
