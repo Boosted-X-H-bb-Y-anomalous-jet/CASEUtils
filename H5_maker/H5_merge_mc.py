@@ -4,8 +4,9 @@ from os.path import isfile
 
 eosls       = 'eos root://cmseos.fnal.gov ls'
 
-processes = ["MX2400_MY100"]
-years     = ["2017"]
+processes = ["TTToHadronic","MX1200_MY90","MX1400_MY90","MX1600_MY90","MX1800_MY90","MX2000_MY90","MX2200_MY90","MX2400_MY90","MX2500_MY90","MX2600_MY90","MX2800_MY90","MX3000_MY90","MX3500_MY90","MX4000_MY90"]
+#years     = ["2016APV"]
+years     = ["2016","2016APV","2017","2018"]
 for year in years:
     for process in processes:
         print(f"Doing {process} {year}")
