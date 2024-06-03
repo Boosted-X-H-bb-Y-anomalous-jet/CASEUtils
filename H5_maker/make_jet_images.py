@@ -27,14 +27,13 @@ img_width = 1.2
 rotate = False
 overwrite = True
 
-
 if(fin_name != fout_name):
     #output to different file
     print("Going to copy all the data from %s to %s, will add jet images after " % (fin_name, fout_name))
     if(len(excludes) == 0 and options.deta < 0 and options.deta_min < 0):
         os.system("cp %s %s" % (fin_name, fout_name))
         fin = h5py.File(fin_name, 'r')
-        fout = h5py.File(fout_name, 'a')
+        fout = h5py.File(fout_name, 'w')
         j1_PFCands = fin['jet1_PFCands']
         j2_PFCands = fin['jet2_PFCands']
     else:
@@ -53,15 +52,15 @@ if(fin_name != fout_name):
 
 
         
-        for key in fin.keys():
-            if key in excludes or 'images' in key:
-                continue
-            print("Copying key %s" % key)
-            if(options.deta < 0 or fin[key].shape[0] == 1): 
-                fin.copy(key, fout)
-            else:
-                content = fin[key][:][mask]
-                fout.create_dataset(key, data = content)
+    for key in fin.keys():
+        if key in excludes or 'images' in key:
+            continue
+        print("Copying key %s" % key)
+        if(options.deta < 0 or fin[key].shape[0] == 1): 
+            fin.copy(key, fout)
+        else:
+            content = fin[key][:][mask]
+            fout.create_dataset(key, data = content)
 
     
 

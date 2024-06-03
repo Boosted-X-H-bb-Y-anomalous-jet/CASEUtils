@@ -21,7 +21,7 @@ fin_name = options.fin_name
 fout_name = options.fout_name
 if(fout_name == ""): fout_name = fin_name
 #excludes = []
-excludes = ['jet1_PFCands', 'jet2_PFCands']
+excludes = ['jet1_PFCands', 'jet2_PFCands', 'jet1_SVs', 'jet2_SVs']
 npix = options.npix
 img_width = 1.2
 rotate = False
@@ -59,7 +59,7 @@ if(fin_name != fout_name):
                 fin.copy(key, fout)
             else:
                 content = fin[key][:][mask]
-                fout.create_dataset(key, data = content)
+                fout.create_dataset(key, data = content, compression = 'gzip')
 
     
 
@@ -76,6 +76,8 @@ else:
         if('j2_images' in fin.keys()):
             print("deleting existing j2 images")
             del fin['j2_images']
+    j1_PFCands = fin['jet1_PFCands']
+    j2_PFCands = fin['jet2_PFCands']
     fout = fin
 
 total_size = j1_PFCands.shape[0]

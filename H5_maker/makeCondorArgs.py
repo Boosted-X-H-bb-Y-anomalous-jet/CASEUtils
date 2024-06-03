@@ -4,7 +4,8 @@ import os
 from collections import OrderedDict
 import sys
 
-redirector = 'root://cmsxrootd.fnal.gov/'
+#redirector = 'root://cmsxrootd.fnal.gov/'
+redirector = 'root://cmseos.fnal.gov/'
 eosls = 'eos root://cmseos.fnal.gov ls'
 output_dir ='root://cmseos.fnal.gov//store/user/roguljic/H5_output/'
 
@@ -57,23 +58,75 @@ jetht_datasets = {
      }
 }
 
-mc_datasets = {#These contain trees with systematics
+mc_datasets = {
     "2016": {
-        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_181812/0000/"
+        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_181812/0000/",
+        "MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_182915/0000/",
+        "MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_195611/0000/",
+        "MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_195509/0000/",
+        "MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_193756/0000/",
+        "MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_192110/0000/",
+        "MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_194405/0000/",
+        "MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_194905/0000/",
+        "MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_180409/0000/",
+        "MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_181825/0000/",
+        "MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_200851/0000/",
+        "MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_185042/0000/",
+        "MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_185439/0000/",
+        "MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_194505/0000/",
     },
     "2016APV": {
-        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_173601/0000/"
+        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_173601/0000/",
+        "MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_163901/0000/",
+        "MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180135/0000/",
+        "MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180040/0000/",
+        "MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_174652/0000/",
+        "MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_172344/0000/",
+        "MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_175300/0000/",
+        "MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175638/0000/",
+        "MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_162104/0000/",
+        "MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_163125/0000/",
+        "MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191442/0000/",
+        "MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_165405/0000/",
+        "MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_165647/0000/",
+        "MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_175352/0000/",
     },
     "2017": {
         "TTToHadronic": "/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220705_160139/0000/",
         "MX2400_MY100": "/store/group/lpcpfnano/ammitra/v2_3/2017/XHYPrivate/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/221013_153330/0000/",
+        "MX1200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_173430/0000/",
+        "MX1400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_190106/0000/",
+        "MX1600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_185942/0000/",
+        "MX1800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_183813/0000/",
+        "MX2000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_181642/0000/",
+        "MX2200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_184540/0000/",
+        "MX2400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_185206/0000/",
+        "MX2500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_171831/0000/",
+        "MX2600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_172734/0000/",
+        "MX2800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191800/0000/",
+        "MX3000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_174810/0000/",
+        "MX3500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_175051/0000/",
+        "MX4000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_184703/0000/",
     },
     "2018": {
-       'TTToHadronic':'/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_151154/0000/'
+       'TTToHadronic':'/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_151154/0000/',
+        "MX1200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_140756/0000/",
+        "MX1400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180330/0000/",
+        "MX1600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180132/0000/",
+        "MX1800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_173225/0000/",
+        "MX2000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_170430/0000/",
+        "MX2200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_174255/0000/",
+        "MX2400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175200/0000/",
+        "MX2500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_134523/0000/",
+        "MX2600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_135807/0000/",
+        "MX2800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_182514/0000/",
+        "MX3000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_142659/0000/",
+        "MX3500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_143041/0000/",
+        "MX4000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_170454/0000/",
     }
 }
 
-friend_datasets= {
+friend_datasets= {#These contain trees with systematics
     "2016": {
         "TTToHadronic": "/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2016/TTToHadronic/"
     },
@@ -94,17 +147,22 @@ def args_for_submission(datasets_dict,data_flag):
         #if year!="2018":
         #    continue
         if data_flag:
+            sample_type = 'data'
             arguments_file = f'JetHT_args_{year}.txt'
         else:
+            sample_type = 'MC'
             arguments_file = f'mc_args_{year}.txt'
         arguments = []
         for process, path in dataset.items():
             if("MX" in process):
                 f = 1
+                gen_opt = "-g YtoWW"
             elif("TTToHadronic" in process):
                 f = -2
+                gen_opt = "-g ttobqq"
             else:
                 f = 0
+                gen_opt = ""
 
 
             # get the file names
@@ -114,7 +172,8 @@ def args_for_submission(datasets_dict,data_flag):
 
             fFriends=[]
             if not data_flag:
-                friend_dataset_path = friend_datasets[year][process]
+                #friend_dataset_path = friend_datasets[year][process]
+                friend_dataset_path = f"/store/user/roguljic/XHYAnomalous/PFNanoExtensions/{year}/{process}/"
                 fFriends = subprocess.check_output(['{} {}'.format(eosls,friend_dataset_path)],shell=True,text=True).split('\n')
                 fFriends.remove('')
 
@@ -138,11 +197,15 @@ def args_for_submission(datasets_dict,data_flag):
                     os.makedirs(proc_dir_eos)
 
                 if os.path.exists(f'{proc_dir_eos}{fName.split(".")[0]}.h5'):
-                    continue
+                    if os.path.getsize(f'{proc_dir_eos}{fName.split(".")[0]}.h5') < 1000:
+                        subprocess.call([f'rm -f {proc_dir_eos}{fName.split(".")[0]}.h5'],shell=True)
+                    else:
+                        continue
 
                 oFile = f'{proc_dir}{fName.split(".")[0]}.h5'
                 iYear = 2016 if 'APV' in year else year
-                arguments.append(' -i {} -o {} -y {} -f {} --fTree {}\n'.format(iFile, oFile, iYear, f, friend_tree_path))
+                
+                arguments.append(' -i {} -o {} -y {} -f {} --fTree {} {} --sample_type {}\n'.format(iFile, oFile, iYear, f, friend_tree_path, gen_opt, sample_type))
 
         if arguments==[]:
             if data_flag:
@@ -171,7 +234,6 @@ def args_for_submission(datasets_dict,data_flag):
 
         print(f"condor_submit {jdl_name}")
 
-
 def write_arguments(filename,arguments,N=20):    
     counter = 0
     for i in range(0,len(arguments), N):  
@@ -193,4 +255,4 @@ if __name__=='__main__':
     args_for_submission(mc_datasets,data_flag)
     data_flag = True
     args_for_submission(jetht_datasets,data_flag)
-    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt"],shell=True)
+    subprocess.call(["tar czf tarball.tgz run_h5_condor.sh ImageUtils.py make_jet_images.py run_h5_condor.py make_h5_local.py H5_maker.py *args*txt gen_utils.py add_VAE_loss.py jrand_autoencoder_m2500.h5"],shell=True)
