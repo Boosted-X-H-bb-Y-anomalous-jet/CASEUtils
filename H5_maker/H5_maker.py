@@ -533,10 +533,10 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
     "Flag_HBHENoiseIsoFilter",
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_BadPFMuonFilter",
-    #"Flag_BadPFMuonDzFilter",
+    "Flag_BadPFMuonDzFilter",
     "Flag_eeBadScFilter", 
     ]
-    if((year == 2016) or (year == 2016.5)): filters.append("Flag_CSCTightHaloFilter")
+
     if(year == 2017 or year == 2018): filters.append("Flag_ecalBadCalibFilter")
 
     if(year == 2016):
