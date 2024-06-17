@@ -526,7 +526,7 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
         print("Error! sampleType needs to be set to either data or MC! Please set correct option and retry.")
         sys.exit()
     
-    #Applying stpython make_h5_local.py -i input_file.root -o output_file.h5 -y 201X -f 0andard MET filters: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Analysis_Recommendations_for_ana
+    #Applying standard MET filters: https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Analysis_Recommendations_for_ana
     filters = ["Flag_goodVertices",
     "Flag_globalSuperTightHalo2016Filter",
     "Flag_HBHENoiseFilter",
