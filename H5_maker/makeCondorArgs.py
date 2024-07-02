@@ -126,26 +126,10 @@ mc_datasets = {
     }
 }
 
-friend_datasets= {#These contain trees with systematics
-    "2016": {
-        "TTToHadronic": "/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2016/TTToHadronic/"
-    },
-    "2016APV": {
-        "TTToHadronic": "/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2016APV/TTToHadronic/"
-    },
-    "2017": {
-        "TTToHadronic": "/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2017/TTToHadronic/",
-        "MX2400_MY100": "/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2017/MX2400_MY100/"
-    },
-    "2018": {
-       'TTToHadronic':'/store/user/roguljic/XHYAnomalous/PFNanoExtensions/2018/TTToHadronic/'
-    }
-}
-
 def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
-        #if year!="2018":
-        #    continue
+        if year!="2018":
+            continue
         if data_flag:
             sample_type = 'data'
             arguments_file = f'JetHT_args_{year}.txt'
@@ -172,8 +156,10 @@ def args_for_submission(datasets_dict,data_flag):
 
             fFriends=[]
             if not data_flag:
-                #friend_dataset_path = friend_datasets[year][process]
-                friend_dataset_path = f"/store/user/roguljic/XHYAnomalous/PFNanoExtensions/{year}/{process}/"
+                if(year=="2016" or year=="2017"):
+                    friend_dataset_path = f"/store/user/shanning/XHYAnomalous/PFNanoExtensions/{year}/{process}/"
+                else:
+                    friend_dataset_path = f"/store/user/roguljic/XHYAnomalous/PFNanoExtensions_v2/{year}/{process}/"
                 fFriends = subprocess.check_output(['{} {}'.format(eosls,friend_dataset_path)],shell=True,text=True).split('\n')
                 fFriends.remove('')
 
