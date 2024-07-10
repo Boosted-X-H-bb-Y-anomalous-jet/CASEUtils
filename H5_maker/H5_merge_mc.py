@@ -4,22 +4,33 @@ from os.path import isfile
 from os.path import getsize
 
 eosls       = 'eos root://cmseos.fnal.gov ls'
+eosmkdir       = 'eos root://cmseos.fnal.gov mkdir'
 
-processes = ["TTToHadronic","MX1200_MY90","MX1400_MY90","MX1600_MY90","MX1800_MY90","MX2000_MY90","MX2200_MY90","MX2400_MY90","MX2500_MY90","MX2600_MY90","MX2800_MY90","MX3000_MY90","MX3500_MY90","MX4000_MY90"]
+#processes = ["TTToHadronic","MX1200_MY90","MX1400_MY90","MX1600_MY90","MX1800_MY90","MX2000_MY90","MX2200_MY90","MX2400_MY90","MX2500_MY90","MX2600_MY90","MX2800_MY90","MX3000_MY90","MX3500_MY90","MX4000_MY90"]
+#processes = ["QCD_HT700to1000","QCD_HT1000to1500","QCD_HT1500to2000","QCD_HT2000toInf","TTToSemiLeptonic"]
+processes = ["QCD_HT700to1000","QCD_HT1000to1500","QCD_HT1500to2000","QCD_HT2000toInf","TTToSemiLeptonic"]
 years     = ["2016"]
 #years     = ["2016","2016APV","2017","2018"]
 for year in years:
     for process in processes:
         print(f"Doing {process} {year}")
         h5_dir_output  = f"/store/user/roguljic/H5_output/{year}/{process}/"
-        if(year=="2017" or year=="2016"):
+        #if(year=="2017" or year=="2016"):
+        if(True):
             h5_dir_input = f"/store/user/shanning/H5_output/{year}/{process}/"
         else:
             h5_dir_input = f"/store/user/roguljic/H5_output/{year}/{process}/"
+
         fNames  = subprocess.check_output(['{} {}'.format(eosls,h5_dir_input)],shell=True,text=True).split('\n')
-        fNames_output = subprocess.check_output(['{} {}'.format(eosls,h5_dir_output)],shell=True,text=True).split('\n')
         fNames.remove('')
-        fNames_output.remove('')
+        try:
+            fNames_output = subprocess.check_output(['{} {}'.format(eosls,h5_dir_output)],shell=True,text=True).split('\n')
+            fNames_output.remove('')
+        except:
+            print(f"Creating directory: {h5_dir_output}")
+            subprocess.check_output(['{} {}'.format(eosmkdir,h5_dir_output)],shell=True,text=True).split('\n')
+            fNames_output=[]  
+
         if "merged.h5" in fNames_output:
             print(f"{process} in {year} merged, continuing")
             continue
