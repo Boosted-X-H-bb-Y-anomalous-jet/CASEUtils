@@ -148,7 +148,7 @@ mc_datasets = {
 
 def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
-        if year not in ["2016","2016APV","2017","2018"]:
+        if year!="2016":
             continue
         if data_flag:
             sample_type = 'data'
@@ -211,6 +211,14 @@ def args_for_submission(datasets_dict,data_flag):
                 if os.path.exists(f'{proc_dir_eos}{fName.split(".")[0]}.h5'):
                     if os.path.getsize(f'{proc_dir_eos}{fName.split(".")[0]}.h5') < 1000:
                         subprocess.call([f'rm -f {proc_dir_eos}{fName.split(".")[0]}.h5'],shell=True)
+                    else:
+                        continue
+
+                #H5s now might be stored in Sabrina's store
+                proc_dir_eos_sabrina = proc_dir_eos.replace("roguljic","shanning")
+                if os.path.exists(f'{proc_dir_eos_sabrina}{fName.split(".")[0]}.h5'):
+                    if os.path.getsize(f'{proc_dir_eos_sabrina}{fName.split(".")[0]}.h5') < 1000:
+                        subprocess.call([f'rm -f {proc_dir_eos_sabrina}{fName.split(".")[0]}.h5'],shell=True)
                     else:
                         continue
 
