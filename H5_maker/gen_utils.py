@@ -495,6 +495,8 @@ def get_id_Y_cand(event,eta,phi):
         deltaR = Math.VectorUtil.DeltaR(Y_cand_vec,gen_part_vec)
         if deltaR<min_DR:
             id = gen_part.pdgId
+            min_DR=deltaR
+    #print(min_DR)
 
     if id==-1:
         print("Could not find top or antitop. Are you sure this is a TTbar sample?")
