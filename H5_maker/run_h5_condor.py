@@ -33,7 +33,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     oFileName = args.oFile.split("/")[-1]
 
-    if "TTToHadronic" in args.oFile or "MX" in args.oFile:
+    if "TTToHadronic" in args.oFile or "MX" in args.oFile or "TTToSemi" in args.oFile:
         sys_opt = " --sys"
     else:
         sys_opt = ""
@@ -52,6 +52,6 @@ if __name__=='__main__':
     subprocess.call('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName),shell=True)
     print('python3 add_VAE_loss.py')
     subprocess.call('python3 add_VAE_loss.py',shell=True)
-    print(f'xrdcp {oFileName} {args.oFile}')
+    print(f'xrdcp with_jet_images.h5 {args.oFile}')
     subprocess.call([f'xrdcp with_jet_images.h5 {args.oFile}'],shell=True)
     
