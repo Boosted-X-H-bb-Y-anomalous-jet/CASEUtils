@@ -7,7 +7,7 @@ import sys
 #redirector = 'root://cmsxrootd.fnal.gov/'
 redirector = 'root://cmseos.fnal.gov/'
 eosls = 'eos root://cmseos.fnal.gov ls'
-output_dir ='root://cmseos.fnal.gov//store/user/roguljic/H5_output/'
+output_dir ='root://cmseos.fnal.gov//store/user/shanning/H5_output/'
 
 jdl_tpl='''
 universe = vanilla
@@ -60,69 +60,89 @@ jetht_datasets = {
 
 mc_datasets = {
     "2016": {
-        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_181812/0000/",
-        "MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_182915/0000/",
-        "MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_195611/0000/",
-        "MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_195509/0000/",
-        "MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_193756/0000/",
-        "MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_192110/0000/",
-        "MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_194405/0000/",
-        "MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_194905/0000/",
-        "MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_180409/0000/",
-        "MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_181825/0000/",
-        "MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_200851/0000/",
-        "MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_185042/0000/",
-        "MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_185439/0000/",
-        "MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_194505/0000/",
+        #"TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_181812/0000/",
+        #"MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_182915/0000/",
+        #"MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_195611/0000/",
+        #"MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_195509/0000/",
+        #"MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_193756/0000/",
+        #"MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_192110/0000/",
+        #"MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_194405/0000/",
+        #"MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_194905/0000/",
+        #"MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_180409/0000/",
+        #"MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_181825/0000/",
+        #"MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_200851/0000/",
+        #"MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_185042/0000/",
+        #"MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_185439/0000/",
+        #"MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_194505/0000/",
+        "QCD_HT1000to1500":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1000to1500/220808_181242/0000/",
+        "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_181307/0000/",
+        "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_181358/0000/",
+        "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_181216/0000/",
+        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_181840/0000/",
     },
     "2016APV": {
-        "TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_173601/0000/",
-        "MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_163901/0000/",
-        "MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180135/0000/",
-        "MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180040/0000/",
-        "MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_174652/0000/",
-        "MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_172344/0000/",
-        "MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_175300/0000/",
-        "MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175638/0000/",
-        "MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_162104/0000/",
-        "MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_163125/0000/",
-        "MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191442/0000/",
-        "MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_165405/0000/",
-        "MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_165647/0000/",
-        "MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_175352/0000/",
+        #"TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_173601/0000/",
+        #"MX1200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_163901/0000/",
+        #"MX1400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180135/0000/",
+        #"MX1600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180040/0000/",
+        #"MX1800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_174652/0000/",
+        #"MX2000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_172344/0000/",
+        #"MX2200_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_175300/0000/",
+        #"MX2400_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175638/0000/",
+        #"MX2500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_162104/0000/",
+        #"MX2600_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_163125/0000/",
+        #"MX2800_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191442/0000/",
+        #"MX3000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_165405/0000/",
+        #"MX3500_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_165647/0000/",
+        #"MX4000_MY90":"/store/group/lpcpfnano/rkansal/v2_3/2016APV/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_175352/0000/",
+        "QCD_HT1000to1500":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1000to1500/220808_173028/0000/",
+        "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_173053/0000/",
+        "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_173144/0000/",
+        "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_173001/0000/",
+        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_173625/0000/",
     },
     "2017": {
-        "TTToHadronic": "/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220705_160139/0000/",
-        "MX2400_MY100": "/store/group/lpcpfnano/ammitra/v2_3/2017/XHYPrivate/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/221013_153330/0000/",
-        "MX1200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_173430/0000/",
-        "MX1400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_190106/0000/",
-        "MX1600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_185942/0000/",
-        "MX1800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_183813/0000/",
-        "MX2000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_181642/0000/",
-        "MX2200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_184540/0000/",
-        "MX2400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_185206/0000/",
-        "MX2500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_171831/0000/",
-        "MX2600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_172734/0000/",
-        "MX2800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191800/0000/",
-        "MX3000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_174810/0000/",
-        "MX3500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_175051/0000/",
-        "MX4000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_184703/0000/",
+        #"TTToHadronic": "/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220705_160139/0000/",
+        #"MX2400_MY100": "/store/group/lpcpfnano/ammitra/v2_3/2017/XHYPrivate/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/NMSSM_XToYH_MX2400_MY100_HTo2bYTo2W_hadronicDecay/221013_153330/0000/",
+        #"MX1200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_173430/0000/",
+        #"MX1400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_190106/0000/",
+        #"MX1600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_185942/0000/",
+        #"MX1800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_183813/0000/",
+        #"MX2000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_181642/0000/",
+        #"MX2200_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_184540/0000/",
+        #"MX2400_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_185206/0000/",
+        #"MX2500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_171831/0000/",
+        #"MX2600_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_172734/0000/",
+        #"MX2800_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_191800/0000/",
+        #"MX3000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_174810/0000/",
+        #"MX3500_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_175051/0000/",
+        #"MX4000_MY90":"/store/group/lpcpfnano/ammitra/v2_3/2017/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_184703/0000/",
+        "QCD_HT1000to1500":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1000to1500/220808_164439/0000/",
+        "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_164504/0000/",
+        "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_164556/0000/",
+        "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_164413/0000/",
+        "TTToSemiLeptonic":"/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220705_160227/0000/",
     },
     "2018": {
-       'TTToHadronic':'/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_151154/0000/',
-        "MX1200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_140756/0000/",
-        "MX1400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180330/0000/",
-        "MX1600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180132/0000/",
-        "MX1800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_173225/0000/",
-        "MX2000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_170430/0000/",
-        "MX2200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_174255/0000/",
-        "MX2400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175200/0000/",
-        "MX2500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_134523/0000/",
-        "MX2600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_135807/0000/",
-        "MX2800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_182514/0000/",
-        "MX3000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_142659/0000/",
-        "MX3500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_143041/0000/",
-        "MX4000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_170454/0000/",
+        #'TTToHadronic':'/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_151154/0000/',
+        #"MX1200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1200_MY-90/230323_140756/0000/",
+        #"MX1400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1400_MY-90/230323_180330/0000/",
+        #"MX1600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1600_MY-90/230323_180132/0000/",
+        #"MX1800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-1800_MY-90/230323_173225/0000/",
+        #"MX2000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2000_MY-90/230323_170430/0000/",
+        #"MX2200_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2200_MY-90/230323_174255/0000/",
+        #"MX2400_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2400_MY-90/230323_175200/0000/",
+        #"MX2500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2500_MY-90/230323_134523/0000/",
+        #"MX2600_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2600_MY-90/230323_135807/0000/",
+        #"MX2800_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-2800_MY-90/230323_182514/0000/",
+        #"MX3000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3000_MY-90/230323_142659/0000/",
+        #"MX3500_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-3500_MY-90/230323_143041/0000/",
+        #"MX4000_MY90":"/store/group/lpcpfnano/cmantill/v2_3/2018/XHY/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90_TuneCP5_13TeV-madgraph-pythia8/NMSSM_XToYHTo2W2BTo4Q2B_MX-4000_MY-90/230323_170454/0000/",
+        "QCD_HT1000to1500":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1000to1500_PSWeights_madgraph/220808_163033/0000/",
+        "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000_PSWeights_madgraph/220808_163124/0000/",
+        "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf_PSWeights_madgraph/220808_163214/0000/",
+        "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000_PSWeights_madgraph/220808_162918/0000/",
+        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_151244/0000/",
     }
 }
 
@@ -139,14 +159,18 @@ def args_for_submission(datasets_dict,data_flag):
         arguments = []
         for process, path in dataset.items():
             if("MX" in process):
+                #continue
                 f = 1
                 gen_opt = "-g YtoWW"
             elif("TTToHadronic" in process):
+                #continue
                 f = -2
                 gen_opt = "-g ttobqq"
             else:
                 f = 0
                 gen_opt = ""
+            
+            
 
 
             # get the file names
@@ -159,12 +183,13 @@ def args_for_submission(datasets_dict,data_flag):
                 if(year=="2016" or year=="2017"):
                     friend_dataset_path = f"/store/user/shanning/XHYAnomalous/PFNanoExtensions/{year}/{process}/"
                 else:
-                    friend_dataset_path = f"/store/user/roguljic/XHYAnomalous/PFNanoExtensions_v2/{year}/{process}/"
+                    friend_dataset_path = f"/store/user/shanning/XHYAnomalous/PFNanoExtensions/{year}/{process}/" #f"/store/user/roguljic/XHYAnomalous/PFNanoExtensions_v2/{year}/{process}/"
                 fFriends = subprocess.check_output(['{} {}'.format(eosls,friend_dataset_path)],shell=True,text=True).split('\n')
                 fFriends.remove('')
 
             for fName in fNames:
                 # create arguments
+
                 if (fName not in fFriends) and not data_flag:
                     print(f"{fName} not in {friend_dataset_path}")
                     exit()
@@ -174,10 +199,11 @@ def args_for_submission(datasets_dict,data_flag):
                 else:
                     friend_tree_path = f"{redirector}{friend_dataset_path}/{fName}"
 
-
+                
                 iFile = '{}{}{}'.format(redirector, path, fName)
                 proc_dir = f'{output_dir}/{year}/{process}/'
                 proc_dir_eos = proc_dir.replace("root://cmseos.fnal.gov/","/eos/uscms/")
+                #print(proc_dir_eos)
                 if not os.path.exists(proc_dir_eos):
                     print(f"Making dir {proc_dir_eos}")
                     os.makedirs(proc_dir_eos)
