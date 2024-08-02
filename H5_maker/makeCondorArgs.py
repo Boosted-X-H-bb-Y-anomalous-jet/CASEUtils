@@ -3,6 +3,7 @@ import glob
 import os
 from collections import OrderedDict
 import sys
+import h5py
 
 #redirector = 'root://cmsxrootd.fnal.gov/'
 redirector = 'root://cmseos.fnal.gov/'
@@ -27,34 +28,34 @@ Queue args from ARGFILE
 
 jetht_datasets = {
     "2016APV": {
-        "JetHT_Run2016B_ver2_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016B_ver2_HIPM/220701_193532/0000/",
-        "JetHT_Run2016C_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016C_HIPM/220701_193745/0000/",
-        "JetHT_Run2016D_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016D_HIPM/220701_193811/0000/",
-        "JetHT_Run2016E_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016E_HIPM/220701_193836/0000/",
-        "JetHT_Run2016F": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F/220701_193506/0000/"
+        #"JetHT_Run2016B_ver2_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016B_ver2_HIPM/220701_193532/0000/",
+        #"JetHT_Run2016C_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016C_HIPM/220701_193745/0000/",
+        #"JetHT_Run2016D_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016D_HIPM/220701_193811/0000/",
+        #"JetHT_Run2016E_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016E_HIPM/220701_193836/0000/",
+        #"JetHT_Run2016F": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F/220701_193506/0000/"
      },
     "2016": {
-        "JetHT_Run2016F_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F_HIPM/220701_193559/0000/",
-        "JetHT_Run2016G": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0000/",
-        "JetHT_Run2016G1": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0001/",
-        "JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220701_193717/0000/",
-        "JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220801_140806/0000/"
+        #"JetHT_Run2016F_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F_HIPM/220701_193559/0000/",
+        #"JetHT_Run2016G": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0000/",
+        #"JetHT_Run2016G1": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0001/",
+        #"JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220701_193717/0000/",
+        #"JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220801_140806/0000/"
      },
     "2017": {
-        "JetHT_Run2017B": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017B/220701_194050/0000/",
-        "JetHT_Run2017C": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017C/220701_194023/0000/",
-        "JetHT_Run2017D": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017D/220701_193930/0000/",
-        "JetHT_Run2017E": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017E/220701_193905/0000/",
-        "JetHT_Run2017F": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017F/220701_193956/0000/",
-        "JetHT_Run2017F1": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017F/220701_193956/0001/",
+        #"JetHT_Run2017B": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017B/220701_194050/0000/",
+        #"JetHT_Run2017C": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017C/220701_194023/0000/",
+        #"JetHT_Run2017D": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017D/220701_193930/0000/",
+        #"JetHT_Run2017E": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017E/220701_193905/0000/",
+        #"JetHT_Run2017F": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017F/220701_193956/0000/",
+        #"JetHT_Run2017F1": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017F/220701_193956/0001/",
      },
     "2018": {
-        "JetHT_Run2018D": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0000/",
-        "JetHT_Run2018D1": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0001/",
-        "JetHT_Run2018D2": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0002/",
-        "JetHT_Run2018A": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018A/220701_194145/0000/",
-        "JetHT_Run2018B": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018B/220701_194212/0000/",
-        "JetHT_Run2018C": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018C/220701_194237/0000/"
+        #"JetHT_Run2018D": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0000/",
+        #"JetHT_Run2018D1": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0001/",
+        #"JetHT_Run2018D2": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018D/220801_141548/0002/",
+        #"JetHT_Run2018A": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018A/220701_194145/0000/",
+        #"JetHT_Run2018B": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018B/220701_194212/0000/",
+        #"JetHT_Run2018C": "/store/group/lpcpfnano/cmantill/v2_3/2018/JetHT2018/JetHT/JetHT_Run2018C/220701_194237/0000/"
      }
 }
 
@@ -78,7 +79,7 @@ mc_datasets = {
         "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_181307/0000/",
         "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_181358/0000/",
         "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2016/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_181216/0000/",
-        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_181840/0000/",
+        #"TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_181840/0000/",
     },
     "2016APV": {
         #"TTToHadronic": "/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_173601/0000/",
@@ -99,7 +100,7 @@ mc_datasets = {
         "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_173053/0000/",
         "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_173144/0000/",
         "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_173001/0000/",
-        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_173625/0000/",
+        #"TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2016APV/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_173625/0000/",
     },
     "2017": {
         #"TTToHadronic": "/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220705_160139/0000/",
@@ -121,7 +122,7 @@ mc_datasets = {
         "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000/220808_164504/0000/",
         "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf/220808_164556/0000/",
         "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2017/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000/220808_164413/0000/",
-        "TTToSemiLeptonic":"/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220705_160227/0000/",
+        #"TTToSemiLeptonic":"/store/group/lpcpfnano/rkansal/v2_3/2017/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220705_160227/0000/",
     },
     "2018": {
         #'TTToHadronic':'/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/TTToHadronic/220808_151154/0000/',
@@ -142,13 +143,13 @@ mc_datasets = {
         "QCD_HT1500to2000":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT1500to2000_PSWeights_madgraph/220808_163124/0000/",
         "QCD_HT2000toInf":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT2000toInf_PSWeights_madgraph/220808_163214/0000/",
         "QCD_HT700to1000":"/store/group/lpcpfnano/cmantill/v2_3/2018/QCD/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/QCD_HT700to1000_PSWeights_madgraph/220808_162918/0000/",
-        "TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_151244/0000/",
+        #"TTToSemiLeptonic":"/store/group/lpcpfnano/cmantill/v2_3/2018/TTbar/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/TTToSemiLeptonic/220808_151244/0000/",
     }
 }
 
 def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
-        if year!="2016":
+        if year not in ['2016','2016APV','2017','2018']:
             continue
         if data_flag:
             sample_type = 'data'
@@ -157,6 +158,7 @@ def args_for_submission(datasets_dict,data_flag):
             sample_type = 'MC'
             arguments_file = f'mc_args_{year}.txt'
         arguments = []
+        arguments2000toInf=[]
         for process, path in dataset.items():
             if("MX" in process):
                 #continue
@@ -209,7 +211,13 @@ def args_for_submission(datasets_dict,data_flag):
                     os.makedirs(proc_dir_eos)
 
                 if os.path.exists(f'{proc_dir_eos}{fName.split(".")[0]}.h5'):
+                    keys=[]
+                    with h5py.File(f'{proc_dir_eos}{fName.split(".")[0]}.h5', 'r') as file:
+                        for key in file.keys():
+                            keys.append(key)
                     if os.path.getsize(f'{proc_dir_eos}{fName.split(".")[0]}.h5') < 1000:
+                        subprocess.call([f'rm -f {proc_dir_eos}{fName.split(".")[0]}.h5'],shell=True)
+                    elif keys!=['Y_idx', 'Y_vae_loss', 'd_eta_eff', 'event_info', 'j1_images', 'j2_images', 'jet1_PFCands', 'jet1_SVs', 'jet1_extraInfo', 'jet2_PFCands', 'jet2_SVs', 'jet2_extraInfo', 'jet_kinematics', 'preselection_eff', 'truth_label']:
                         subprocess.call([f'rm -f {proc_dir_eos}{fName.split(".")[0]}.h5'],shell=True)
                     else:
                         continue
@@ -225,7 +233,10 @@ def args_for_submission(datasets_dict,data_flag):
                 oFile = f'{proc_dir}{fName.split(".")[0]}.h5'
                 iYear = 2016 if 'APV' in year else year
                 
-                arguments.append(' -i {} -o {} -y {} -f {} --fTree {} {} --sample_type {}\n'.format(iFile, oFile, iYear, f, friend_tree_path, gen_opt, sample_type))
+                if '2000toInf' in iFile:
+                    arguments2000toInf.append(' -i {} -o {} -y {} -f {} --fTree {} {} --sample_type {}\n'.format(iFile, oFile, iYear, f, friend_tree_path, gen_opt, sample_type))
+                else:
+                    arguments.append(' -i {} -o {} -y {} -f {} --fTree {} {} --sample_type {}\n'.format(iFile, oFile, iYear, f, friend_tree_path, gen_opt, sample_type))
 
         if arguments==[]:
             if data_flag:
@@ -234,13 +245,14 @@ def args_for_submission(datasets_dict,data_flag):
                 print(f"Processed all MC in {year}")
             continue
         else:
-            n_files_to_process = len(arguments)
+            n_files_to_process = len(arguments) + len(arguments2000toInf)
             print(f"{n_files_to_process} file to process in {year}")
 
-        n_jobs = write_arguments(arguments_file,arguments)            
+        n_jobs = write_arguments(arguments_file,arguments,20)  
+        n_jobs_2000toInf = write_arguments(arguments_file,arguments2000toInf,10)         
 
         f = open(arguments_file,"w")
-        for job_id in range(1,n_jobs+1):
+        for job_id in range(1,n_jobs+n_jobs_2000toInf+1):
             f.write(arguments_file.replace(".txt",f"_{job_id}.txt\n"))
 
         if data_flag:
@@ -254,7 +266,7 @@ def args_for_submission(datasets_dict,data_flag):
 
         print(f"condor_submit {jdl_name}")
 
-def write_arguments(filename,arguments,N=20):    
+def write_arguments(filename,arguments,N):    
     counter = 0
     for i in range(0,len(arguments), N):  
         arg_chunk = arguments[i:i + N]

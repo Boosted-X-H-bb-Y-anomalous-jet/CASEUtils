@@ -10,7 +10,7 @@ eosmkdir       = 'eos root://cmseos.fnal.gov mkdir'
 #processes = ["QCD_HT700to1000","QCD_HT1000to1500","QCD_HT1500to2000","QCD_HT2000toInf","TTToSemiLeptonic"]
 #processes = ["QCD_HT700to1000","QCD_HT1000to1500","QCD_HT1500to2000","QCD_HT2000toInf","TTToSemiLeptonic"]
 #years     = ["2016"]
-processes = ["QCD_HT2000toInf"]
+processes = ["QCD_HT1000to1500","QCD_HT1500to2000","QCD_HT2000toInf","QCD_HT700to1000"]
 years     = ["2016","2016APV","2017","2018"]
 for year in years:
     for process in processes:
@@ -33,9 +33,8 @@ for year in years:
             fNames_output=[]  
 
         if "merged.h5" in fNames_output:
-            #print(f"{process} in {year} merged, continuing")
-            #continue
-            subprocess.call(f"rm -f /eos/uscms/{h5_dir_input}merged.h5/merged.h5",shell=True)
+            print(f"{process} in {year} merged, continuing")
+            continue
         for i,fName in enumerate(fNames):
             # if(i>10):#For testing
             #     continue
