@@ -3,6 +3,7 @@ import glob
 import os
 from collections import OrderedDict
 import sys
+import h5py
 
 if __name__=='__main__':
     from argparse import ArgumentParser
@@ -52,6 +53,14 @@ if __name__=='__main__':
     subprocess.call('python3 make_jet_images.py -i {} -o with_jet_images.h5'.format(oFileName),shell=True)
     print('python3 add_VAE_loss.py')
     subprocess.call('python3 add_VAE_loss.py',shell=True)
-    print(f'xrdcp with_jet_images.h5 {args.oFile}')
-    subprocess.call([f'xrdcp with_jet_images.h5 {args.oFile}'],shell=True)
-    
+    with h5py.File('with_jet_images.h5', 'r') as f:
+        if 'Y_vae_loss' in f:
+            good_file_flag = True
+        else:
+            good_file_flag = False
+    if good_file_flag:
+        print(f'xrdcp with_jet_images.h5 {args.oFile}')
+        subprocess.call([f'xrdcp with_jet_images.h5 {args.oFile}'],shell=True)
+    else:
+        print("Output file does not have required keys!")
+        
