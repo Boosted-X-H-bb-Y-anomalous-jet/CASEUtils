@@ -26,7 +26,8 @@ def merge(fin_name, fout_name):
         return
 
     for key in copy.copy(fin_keys):
-        if('_eff' in key or fin[key].shape[0] == 1):
+        #if('_eff' in key or fin[key].shape[0] == 1):
+        if('_eff' in key):
             #print("Doing weighted avg for key %s" % key)
             fin_keys.remove(key)
             n_fin = float(fin[fin_keys[0]].shape[0])
