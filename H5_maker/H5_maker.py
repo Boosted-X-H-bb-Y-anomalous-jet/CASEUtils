@@ -52,11 +52,7 @@ JME_vars_map = {
         'pt_JER_up' : 4,
         'm_JER_up' : 5,
         'pt_JER_down' : 6,
-        'm_JER_down' : 7,
-        'm_JMS_up' : 8,
-        'm_JMS_down' : 9,
-        'm_JMR_up' : 10,
-        'm_JMR_down' : 11
+        'm_JER_down' : 7
         }
 
 
@@ -124,8 +120,8 @@ class Outputer:
         self.jet_kinematics = np.zeros((self.batch_size, 14), dtype=np.float32)
         self.event_info = np.zeros((self.batch_size, 8), dtype=np.float32)
         self.sys_weights = np.zeros((self.batch_size, 23), dtype=np.float32)
-        self.jet1_JME_vars = np.zeros((self.batch_size, 12), dtype=np.float32)
-        self.jet2_JME_vars = np.zeros((self.batch_size, 12), dtype=np.float32)
+        self.jet1_JME_vars = np.zeros((self.batch_size, 8), dtype=np.float32)
+        self.jet2_JME_vars = np.zeros((self.batch_size, 8), dtype=np.float32)
         self.gen_info = np.zeros((self.batch_size, self.gen_size, 4), dtype = np.float32)
 
 
@@ -788,28 +784,12 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
                 jet1_msoftdrop_JER_down = inTree.readBranch("FatJet1_msoftdrop_JER_down")
                 jet2_msoftdrop_JER_down = inTree.readBranch("FatJet2_msoftdrop_JER_down")
 
-                #TODO JMS uncs of flag 5% ? 
-                jet1_msoftdrop_JMS_up = inTree.readBranch("FatJet1_msoftdrop_JMS_up")
-                jet2_msoftdrop_JMS_up = inTree.readBranch("FatJet2_msoftdrop_JMS_up")
-
-                jet1_msoftdrop_JMS_down = inTree.readBranch("FatJet1_msoftdrop_JMS_down")
-                jet2_msoftdrop_JMS_down = inTree.readBranch("FatJet2_msoftdrop_JMS_down")
-
-                jet1_msoftdrop_JMR_up = inTree.readBranch("FatJet1_msoftdrop_JMR_up")
-                jet2_msoftdrop_JMR_up = inTree.readBranch("FatJet2_msoftdrop_JMR_up")
-
-                jet1_msoftdrop_JMR_down = inTree.readBranch("FatJet1_msoftdrop_JMR_down")
-                jet2_msoftdrop_JMR_down = inTree.readBranch("FatJet2_msoftdrop_JMR_down")
-
-
 
                 jet1.JME_vars = [jet1_pt_JES_up, jet1_msoftdrop_JES_up, jet1_pt_JES_down, jet1_msoftdrop_JES_down, 
-                               jet1_pt_JER_up, jet1_msoftdrop_JER_up, jet1_pt_JER_down, jet1_msoftdrop_JER_down,
-                               jet1_msoftdrop_JMS_up, jet1_msoftdrop_JMS_down, jet1_msoftdrop_JMR_up, jet1_msoftdrop_JMR_down]
+                               jet1_pt_JER_up, jet1_msoftdrop_JER_up, jet1_pt_JER_down, jet1_msoftdrop_JER_down]
 
                 jet2.JME_vars = [jet2_pt_JES_up, jet2_msoftdrop_JES_up, jet2_pt_JES_down, jet2_msoftdrop_JES_down, 
-                               jet2_pt_JER_up, jet2_msoftdrop_JER_up, jet2_pt_JER_down, jet2_msoftdrop_JER_down,
-                               jet2_msoftdrop_JMS_up, jet2_msoftdrop_JMS_down, jet2_msoftdrop_JMR_up, jet2_msoftdrop_JMR_down]
+                               jet2_pt_JER_up, jet2_msoftdrop_JER_up, jet2_pt_JER_down, jet2_msoftdrop_JER_down]
 
 
 
