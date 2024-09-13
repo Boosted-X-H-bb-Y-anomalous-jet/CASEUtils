@@ -810,12 +810,20 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
                 jet2_4vec_JER_down = ROOT.Math.PtEtaPhiMVector(jet2_pt_JER_down, jet2.eta, jet2.phi, jet2.msoftdrop_corr)
                 mjj_JER_down = (jet1_4vec_JER_down + jet2_4vec_JER_down).M()
 
-
                 #compute if modified 4-vecs pass pre-selection
-                if(mjj_JES_up >= mjj_cut and jet1_pt_JES_up >= jet_min_pt and jet2_pt_JES_up >= jet_min_pt): n_JES_up +=1
-                if(mjj_JES_down >= mjj_cut and jet1_pt_JES_down >= jet_min_pt and jet2_pt_JES_down >= jet_min_pt): n_JES_down +=1
-                if(mjj_JER_up >= mjj_cut and jet1_pt_JER_up >= jet_min_pt and jet2_pt_JER_up >= jet_min_pt): n_JER_up +=1
-                if(mjj_JER_down >= mjj_cut and jet1_pt_JER_down >= jet_min_pt and jet2_pt_JER_down >= jet_min_pt): n_JER_down +=1
+                jec_pass_flag = False
+                if(mjj_JES_up >= mjj_cut and jet1_pt_JES_up >= jet_min_pt and jet2_pt_JES_up >= jet_min_pt): 
+                    n_JES_up +=1
+                    jec_pass_flag = True
+                if(mjj_JES_down >= mjj_cut and jet1_pt_JES_down >= jet_min_pt and jet2_pt_JES_down >= jet_min_pt): 
+                    n_JES_down +=1
+                    jec_pass_flag = True
+                if(mjj_JER_up >= mjj_cut and jet1_pt_JER_up >= jet_min_pt and jet2_pt_JER_up >= jet_min_pt): 
+                    n_JER_up +=1
+                    jec_pass_flag = True
+                if(mjj_JER_down >= mjj_cut and jet1_pt_JER_down >= jet_min_pt and jet2_pt_JER_down >= jet_min_pt): 
+                    n_JER_down +=1
+                    jec_pass_flag = True
                 
 
                 if(jet2.msoftdrop_corr > jet1.msoftdrop_corr):
@@ -838,7 +846,13 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
 
 
 
-            if(mjj< mjj_cut or jet1.pt < jet_min_pt or jet2.pt < jet_min_pt): continue
+            if(mjj< mjj_cut or jet1.pt < jet_min_pt or jet2.pt < jet_min_pt): 
+                nom_pass_flag = False
+            else:
+                nom_pass_flag = True
+
+            if nom_pass_flag==False and jec_pass_flag==False:
+                continue
         
 
             saved+=1
