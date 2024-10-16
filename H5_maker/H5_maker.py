@@ -536,14 +536,11 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
     if(year == 2017 or year == 2018): filters.append("Flag_ecalBadCalibFilter")
 
     if(year == 2016):
-        triggers = ["HLT_PFHT800", "HLT_PFJet450"]
-    #2016.5 corresponds to run 2016H, which needs specific triggers
-    elif (year == 2016.5):
-        triggers = ["HLT_PFHT900", "HLT_PFJet450", "HLT_AK8PFJet450"]
+        triggers = ["HLT_PFHT900", "HLT_PFJet450"]
     elif(year == 2017):
-        triggers = ["HLT_PFHT1050", "HLT_AK8PFJet500", "HLT_AK8PFJet380_TrimMass30", "HLT_AK8PFJet400_TrimMass30"]
+        triggers = ["HLT_PFHT1050", "HLT_AK8PFJet500","HLT_AK8PFJet400_TrimMass30"]
     elif(year == 2018):
-        triggers = ["HLT_PFHT1050", "HLT_AK8PFJet500", "HLT_AK8PFJet380_TrimMass30", "HLT_AK8PFJet400_TrimMass30"]
+        triggers = ["HLT_PFHT1050", "HLT_AK8PFJet500","HLT_AK8PFJet400_TrimMass30"]
     else:
         print("Invalid year option of %i. Year must be 2016, 2017, or 2018! \n" % year)
         exit(1)
@@ -742,7 +739,7 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
             jet1.msoftdrop_corr = jet1.msoftdrop
             jet2.msoftdrop_corr = jet2.msoftdrop
 
-
+            jec_pass_flag = False
             if(include_systematics):
                 #JME Corrections 
                 dijet_idx1  = inTree.readBranch("DijetIdx1")
@@ -811,7 +808,6 @@ def NanoReader(process_flag, inputFileNames=["in.root"], outputFileName="out.roo
                 mjj_JER_down = (jet1_4vec_JER_down + jet2_4vec_JER_down).M()
 
                 #compute if modified 4-vecs pass pre-selection
-                jec_pass_flag = False
                 if(mjj_JES_up >= mjj_cut and jet1_pt_JES_up >= jet_min_pt and jet2_pt_JES_up >= jet_min_pt): 
                     n_JES_up +=1
                     jec_pass_flag = True
