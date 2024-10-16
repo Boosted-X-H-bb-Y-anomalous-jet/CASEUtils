@@ -4,7 +4,8 @@ import os
 from collections import OrderedDict
 import sys
 
-N_per_job = 5 #usually 20
+N_per_job_data = 10 #usually 20
+N_per_job_mc = 1 #usually 20
 #redirector = 'root://cmsxrootd.fnal.gov/'
 redirector = 'root://cmseos.fnal.gov/'
 eosls = 'eos root://cmseos.fnal.gov ls'
@@ -16,7 +17,7 @@ Executable = run_h5_condor.sh
 Should_Transfer_Files = YES
 when_to_transfer_output = ON_EXIT_OR_EVICT
 request_cpus = 1
-request_memory = 2000
+request_memory = 4000
 Output = logs/output_$(Cluster)_$(Process).stdout
 Error = logs/output_$(Cluster)_$(Process).stderr
 Log = logs/output_$(Cluster)_$(Process).log
@@ -63,14 +64,14 @@ jetht_datasets = {
         "JetHT_Run2016C_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016C_HIPM/220701_193745/0000/",
         "JetHT_Run2016D_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016D_HIPM/220701_193811/0000/",
         "JetHT_Run2016E_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016E_HIPM/220701_193836/0000/",
-        "JetHT_Run2016F": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F/220701_193506/0000/"
+        "JetHT_Run2016F_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F_HIPM/220701_193559/0000/"
      },
     "2016": {
-        "JetHT_Run2016F_HIPM": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F_HIPM/220701_193559/0000/",
+        "JetHT_Run2016F": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016F/220701_193506/0000/",
         "JetHT_Run2016G": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0000/",
         "JetHT_Run2016G1": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016G/220701_193626/0001/",
         "JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220701_193717/0000/",
-        "JetHT_Run2016H": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220801_140806/0000/"
+        "JetHT_Run2016H1": "/store/group/lpcpfnano/cmantill/v2_3/2016/JetHT2016/JetHT/JetHT_Run2016H/220801_140806/0000/"
      },
     "2017": {
         "JetHT_Run2017B": "/store/group/lpcpfnano/cmantill/v2_3/2017/JetHT2017/JetHT/JetHT_Run2017B/220701_194050/0000/",
@@ -132,19 +133,20 @@ fill_signal_datasets(mc_datasets,MX,MY)
 def args_for_submission(datasets_dict,data_flag):
     for year, dataset in datasets_dict.items():
         if data_flag:
+            N_per_job = N_per_job_data
             sample_type = 'data'
             arguments_file = f'JetHT_args_{year}.txt'
         else:
             sample_type = 'MC'
+            N_per_job = N_per_job_mc
             arguments_file = f'mc_args_{year}.txt'
         arguments = []
         for process, path in dataset.items():
-            if not ("MX" in process):
-                continue
+            print(process)
             if("MX" in process):
                 f = 1
                 gen_opt = "-g YtoWW"
-            elif("TTToHadronic" in process):
+            elif("TTToHadronic" in process or "TTToSemiLeptonic" in process):
                 f = -2
                 gen_opt = "-g ttobqq"
             else:
@@ -221,7 +223,7 @@ def args_for_submission(datasets_dict,data_flag):
             n_files_to_process = len(arguments)
             print(f"{n_files_to_process} file to process in {year}")
 
-        n_jobs = write_arguments(arguments_file,arguments)            
+        n_jobs = write_arguments(arguments_file,arguments,N=N_per_job)            
 
         f = open(arguments_file,"w")
         for job_id in range(1,n_jobs+1):
@@ -238,7 +240,7 @@ def args_for_submission(datasets_dict,data_flag):
 
         print(f"condor_submit {jdl_name}")
 
-def write_arguments(filename,arguments,N=N_per_job):    
+def write_arguments(filename,arguments,N=20):    
     counter = 0
     for i in range(0,len(arguments), N):  
         arg_chunk = arguments[i:i + N]
