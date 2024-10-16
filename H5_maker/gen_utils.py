@@ -487,11 +487,11 @@ def get_id_Y_cand(event,eta,phi):
     GenPartsColl = Collection(event, "GenPart")
     min_DR = 999.
     id = -1
-    Y_cand_vec = Math.PtEtaPhiEVector(1., eta, phi, 1.)
+    Y_cand_vec = Math.PtEtaPhiEVector(1., eta, phi, 10.)#Dummy for DeltaR calculation
     for i, gen_part in enumerate(GenPartsColl):
         if not(abs(gen_part.pdgId) == 6 and isFirstCopy(gen_part.statusFlags)):
             continue
-        gen_part_vec = Math.PtEtaPhiEVector(1., gen_part.eta, gen_part.phi, 1.)
+        gen_part_vec = Math.PtEtaPhiEVector(1., gen_part.eta, gen_part.phi, 10.)#Dummy for DeltaR calculation
         deltaR = Math.VectorUtil.DeltaR(Y_cand_vec,gen_part_vec)
         if deltaR<min_DR:
             id = gen_part.pdgId
@@ -504,7 +504,7 @@ def get_id_Y_cand(event,eta,phi):
 
     return id
 
-def parse_hadronicTop(event,eta,phi):
+def parse_topjet(event,eta,phi):
 
     Y_cand_id = get_id_Y_cand(event,eta,phi)#top or antitop: 6, -6
     GenPartsColl = Collection(event, "GenPart")
@@ -561,7 +561,7 @@ gen_dict = {
         'Wkk' : (4+2, parse_Wkk),
         'XYY' : (2+2, parse_XYY),
         'Qstar' : (2+1, parse_Qstar),
-        'ttobqq' : (2+1, parse_hadronicTop),
+        'ttobqq' : (2+1, parse_topjet),
         'Wp' : (3+3, parse_Wp),
          }
 
